@@ -2,6 +2,8 @@
 
 Highlights Mirage Wishes in Path of Exile with tier colors and customizable rankings.
 
+<img width="1044" height="624" alt="image" src="https://github.com/user-attachments/assets/7b80daa4-3b02-42f4-bbc0-3188512f06ea" />
+
 ## Features
 
 - Draws colored boxes around wishes in the Mirage panel
