@@ -14,6 +14,7 @@ public class WishHelperSettings : ISettings
     public ToggleNode DrawFrame { get; set; } = new ToggleNode(true);
     public ToggleNode ShowTierLabel { get; set; } = new ToggleNode(true);
     public ToggleNode ShowCustomText { get; set; } = new ToggleNode(true);
+    public ToggleNode ShowStarForSTier { get; set; } = new ToggleNode(true);
     public RangeNode<int> FrameThickness { get; set; } = new RangeNode<int>(3, 1, 10);
     
     public ColorNode STierColor { get; set; } = new ColorNode(Color.Purple);
@@ -90,7 +91,7 @@ public class WishHelperSettings : ISettings
 
     public WishHelperSettings()
     {
-        var tierOptions = new List<string> { "S", "A", "B", "C", "D", "F" };
+        var tierOptions = new List<string> { "S", "A", "B", "C", "D" };
         
         TrovesTier.Values = tierOptions; TrovesTier.Value = "A";
         EminenceTier.Values = tierOptions; EminenceTier.Value = "S";
@@ -151,7 +152,6 @@ public class WishHelperSettings : ISettings
         MissilesTier.Values = tierOptions; MissilesTier.Value = "C";
         BastionsTier.Values = tierOptions; BastionsTier.Value = "C";
         TrinketsTier.Values = tierOptions; TrinketsTier.Value = "B";
-        FlamesTier.Values = tierOptions; FlamesTier.Value = "F";
-        FightingChanceTier.Values = tierOptions; FightingChanceTier.Value = "F";
+
     }
 }

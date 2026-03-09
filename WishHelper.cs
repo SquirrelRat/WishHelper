@@ -21,66 +21,64 @@ public class WishHelper : BaseSettingsPlugin<WishHelperSettings>
     private static readonly List<WishData> Wishes = new()
     {
         new("Wish for Fishes", "Claim a Fishing Rod.", "Fishing Rod"),
-        new("Wish for Troves", "An additional Unique Strongbox will appear in the Mirage Area.", "+1 Unique Strongbox"),
-        new("Wish for Strange Horizons", "Breaking the Astral Chain in the Mirage Area will reward a Unique Map.", "Unique Map"),
-        new("Wish for Reflection", "A Reflecting Mist will appear on breaking the Astral Chain in the Mirage Area.", "Reflecting Mist"),
-        new("Wish for Providence", "The Nameless Seer will appear on breaking the Astral Chain in the Mirage Area.", "Nameless Seer"),
-        new("Wish for Jewels", "An additional Jewel Cache will appear in the Mirage Area.", "+1 Jewel Cache"),
+        new("Wish for Foes", "Rare Monsters in the Mirage Area will have two additional modifiers.", "Rare +2 Mods"),
+        new("Wish for Rebirth", "Monsters in the Mirage Area will have a chance to revive when slain.", "Monsters Revive"),
+        new("Wish for Troves", "An additional Unique Strongbox will appear in the Mirage Area.", "Unique Strongbox"),
+        new("Wish for Glittering", "Skill and Support Gems found in Mirage Area will have a random amount of Quality.", "Quality Gems"),
         new("Wish for Wealth", "100% more Currency found in the Mirage Area.", "100% Currency"),
         new("Wish for Foreknowledge", "100% more Divination Cards found in the Mirage Area.", "100% Div Cards"),
         new("Wish for Scarabs", "80% more Scarabs found in the Mirage Area.", "80% Scarabs"),
+        new("Wish for Horizons", "100% more Maps found in the Mirage Area.", "100% Maps"),
+        new("Wish for Treasures", "80% increased Rarity of items found in the Mirage Area.", "80% Rarity"),
+        new("Wish for Hordes", "20% increased Pack Size in the Mirage Area.", "20% Pack Size"),
         new("Wish for Gold", "Players in Mirage Area find 80% more Gold from slain Enemies.", "80% Gold"),
+        new("Wish for Titans", "Mirage Area will contain 3 additional packs of Atlas Bosses.", "3 Atlas Boss Packs"),
+        new("Wish for Jewels", "An additional Jewel Cache will appear in the Mirage Area.", "Jewel Cache"),
+        new("Wish for Meddling", "Mirage Area will contain 12 additional packs of Astral monsters.", "12 Astral Packs"),
+        new("Wish for Risk", "Mirage Area will contain 12 additional packs of difficult and rewarding monsters.", "12 Hard Packs"),
+        new("Wish for Prosperity", "Mirage Area will contain an additional fountain of wealth.", "Fountain of Wealth"),
+        new("Wish for Uncertainty", "Mirage Area will be affected by 10 random Scarab modifiers.", "10 Scarab Mods"),
+        new("Wish for Hindrance", "Enemies in the Mirage Area will be Chilled and Hindered.", "Chilled/Hindered"),
+        new("Wish for Pursuit", "Enemies in the Mirage Area have a 4% chance to release a Golden Volatile on death.", "4% Golden Volatile"),
+        new("Wish for Oases", "Mirage Area has patches of Oasis Ground.", "Oasis Ground"),
+        new("Wish for Rust", "Map Boss of the Mirage Area will be accompanied by Ridan, of the Afarud.", "Boss + Ridan"),
+        new("Wish for Providence", "The Nameless Seer will appear on breaking the Astral Chain in the Mirage Area.", "Nameless Seer"),
+        new("Wish for Reflection", "A Reflecting Mist will appear on breaking the Astral Chain in the Mirage Area.", "Reflecting Mist"),
+        new("Wish for Godhood", "Players in Mirage Area have Echoing Shrine and Divine Shrine.", "Echo/Divine Shrines"),
+        new("Wish for Knowledge", "Players in Mirage Area gain 50% increased Experience.", "50% XP"),
+        new("Wish for Power", "Enemies slain by Players in Mirage Area explode on death.", "Explode"),
+        new("Wish for Momentum", "Players in Mirage Area have Onslaught and Adrenaline.", "Onslaught/Adrenaline"),
+        new("Wish for Souls", "Players in Mirage Area have Soul Eater.", "Soul Eater"),
+        new("Wish for Elements", "Players in Mirage Area have the Blessing of the Storm.", "Storm Blessing"),
+        new("Wish for Wisps", "Enemies in Mirage Area have a chance to be empowered by Wildwood Wisps.", "Wildwood Wisps"),
+        new("Wish for Croaks", "Mirage Area contains additional frogs.", "More Frogs"),
+        new("Wish for Glyphs", "Portal Scrolls and Wisdom Scrolls found in Mirage Area will instead drop as other Currencies.", "Scrolls → Currency"),
+        new("Wish for Trinkets", "Jewellery found in Mirage Area will instead drop as Jewels.", "Jewellery > Jewels"),
+        new("Wish for Terror", "Map Boss of the Mirage Area will be accompanied by a Pinnacle Atlas Boss from The Feared.", "Boss + Pinnacle"),
         new("Wish for Eminence", "Breaking the Astral Chain in the Mirage Area will reward an additional Unique Jewel.", "Unique Jewel"),
+        new("Wish for Avarice", "Some packs in the Mirage Area will be replaced with Monsters that convert dropped Equipment to Gold.", "Equip → Gold"),
+        new("Wish for Betrayal", "Some packs in the Mirage Area will be replaced with Syndicate members.", "Syndicate"),
+        new("Wish for Phantoms", "Some packs in the Mirage Area will be replaced with Monsters that cannot drop Equipment.", "No Equip Drops"),
         new("Wish for Fortune", "Breaking the Astral Chain in the Mirage Area will reward a cache of Currency.", "Currency Cache"),
         new("Wish for Skittering", "Breaking the Astral Chain in the Mirage Area will reward a cache of Scarabs.", "Scarab Cache"),
         new("Wish for Augury", "Breaking the Astral Chain in the Mirage Area will reward a cache of Stacked Decks.", "Stacked Decks"),
         new("Wish for Distant Horizons", "Breaking the Astral Chain in the Mirage Area will reward a cache of Maps.", "Map Cache"),
-        new("Wish for Titans", "Mirage Area will contain additional packs of Atlas Bosses.", "Atlas Boss Packs"),
-        new("Wish for Prosperity", "Mirage Area will contain an additional fountain of wealth.", "Fountain of Wealth"),
-        new("Wish for Knowledge", "Players in Mirage Area gain 50% increased Experience.", "50% XP"),
-        new("Wish for Glittering", "Skill and Support Gems found in Mirage Area will have a random amount of Quality.", "Quality Gems"),
-        new("Wish for Glyphs", "Portal Scrolls and Wisdom Scrolls found in Mirage Area will instead drop as other Currencies.", "Scrolls → Currency"),
-        new("Wish for Horizons", "100% more Maps found in the Mirage Area.", "100% Maps"),
-        new("Wish for Treasures", "80% increased Rarity of items found in the Mirage Area.", "80% Rarity"),
-        new("Wish for Hordes", "20% increased Pack Size in the Mirage Area.", "20% Pack Size"),
+        new("Wish for Strange Horizons", "Breaking the Astral Chain in the Mirage Area will reward a Unique Map.", "Unique Map"),
+        new("Wish for Binding", "Breaking the Astral Chain in the Mirage Area will reward Orbs of Binding.", "Binding Orbs"),
+        new("Wish for Regency", "Breaking the Astral Chain in the Mirage Area will reward Regal Orbs.", "Regal Orbs"),
+        new("Wish for Connections", "Breaking the Astral Chain in the Mirage Area will reward Fusing or Jewellers Orbs.", "Fusing/Jewellers"),
         new("Wish for Ancient Protection", "Breaking the Astral Chain in the Mirage Area will reward a Unique Armour.", "Unique Armour"),
         new("Wish for Ancient Armaments", "Breaking the Astral Chain in the Mirage Area will reward a Unique Weapon.", "Unique Weapon"),
         new("Wish for Ancient Curios", "Breaking the Astral Chain in the Mirage Area will reward a Unique Jewellery item.", "Unique Jewellery"),
-        new("Wish for Binding", "Breaking the Astral Chain in the Mirage Area will reward Orbs of Binding.", "Orbs of Binding"),
-        new("Wish for Regency", "Breaking the Astral Chain in the Mirage Area will reward Regal Orbs.", "Regal Orbs"),
-        new("Wish for Connections", "Breaking the Astral Chain in the Mirage Area will reward Fusing or Jewellers Orbs.", "Fusing/Jewellers"),
+        new("Wish for Craftsmanship", "Breaking the Astral Chain in the Mirage Area will reward a Five-Linked Body Armour.", "5L Armour"),
         new("Wish for Mosaics", "Breaking the Astral Chain in the Mirage Area will reward Chromatic Orbs.", "Chromatic Orbs"),
         new("Wish for Swiftness", "Breaking the Astral Chain in the Mirage Area will reward Rare Boots.", "Rare Boots"),
         new("Wish for Helms", "Breaking the Astral Chain in the Mirage Area will reward Rare Helmets.", "Rare Helmets"),
         new("Wish for Mitts", "Breaking the Astral Chain in the Mirage Area will reward Rare Gloves.", "Rare Gloves"),
-        new("Wish for Protection", "Breaking the Astral Chain in the Mirage Area will reward Rare Body Armours.", "Rare Body Armour"),
+        new("Wish for Protection", "Breaking the Astral Chain in the Mirage Area will reward Rare Body Armours.", "Rare Armour"),
         new("Wish for Blades", "Breaking the Astral Chain in the Mirage Area will reward Rare Melee Weapons.", "Rare Melee"),
         new("Wish for Missiles", "Breaking the Astral Chain in the Mirage Area will reward Rare Ranged Weapons.", "Rare Ranged"),
-        new("Wish for Bastions", "Breaking the Astral Chain in the Mirage Area will reward Rare Shields.", "Rare Shields"),
-        new("Wish for Trinkets", "Breaking the Astral Chain in the Mirage Area will reward Rare Jewellery.", "Rare Jewellery"),
-        new("Wish for Craftsmanship", "Breaking the Astral Chain in the Mirage Area will reward a Five-Linked Body Armour.", "5-Linked Armour"),
-        new("Wish for Power", "Enemies slain by Players in Mirage Area explode on death. (No loot reward)", "Explode (No Loot)"),
-        new("Wish for Souls", "Players in Mirage Area have Soul Eater. (No loot reward)", "Soul Eater (No Loot)"),
-        new("Wish for Flames", "Players in Mirage Area have the Blessing of the Storm. (No loot reward)", "Storm Bless (No Loot)"),
-        new("Wish for a Fighting Chance", "Map Boss of the Mirage Area will be accompanied by a Pinnacle Atlas Boss from The Feared.", "Boss + Pinnacle"),
-        new("Wish for Rebirth", "Monsters in the Mirage Area will have a chance to revive when slain.", "Monsters Revive"),
-        new("Wish for Foes", "Rare Monsters in the Mirage Area will have two additional modifiers.", "Rare +2 Mods"),
-        new("Wish for Pursuit", "Enemies in the Mirage Area have a 4% chance to release a Golden Volatile on death.", "4% Golden Volatile"),
-        new("Wish for Terror", "Map Boss of the Mirage Area will be accompanied by a Pinnacle Atlas Boss from The Feared.", "Boss + Pinnacle"),
-        new("Wish for Betrayal", "Some packs in the Mirage Area will be replaced with Syndicate members.", "Packs → Syndicate"),
-        new("Wish for Phantoms", "Some packs in the Mirage Area will be replaced with Monsters that cannot drop Equipment.", "Packs → No Equip"),
-        new("Wish for Meddling", "Mirage Area will contain 12 additional packs of Astral monsters.", "+12 Astral Packs"),
-        new("Wish for Risk", "Mirage Area will contain 12 additional packs of difficult and rewarding monsters.", "+12 Hard Packs"),
-        new("Wish for Uncertainty", "Mirage Area will be affected by 10 random Scarab modifiers.", "10 Scarab Mods"),
-        new("Wish for Hindrance", "Enemies in the Mirage Area will be Chilled and Hindered.", "Chilled/Hindered"),
-        new("Wish for Avarice", "Some packs in the Mirage Area will be replaced with Monsters that convert dropped Equipment to Gold.", "Equip → Gold"),
-        new("Wish for Elements", "Players in Mirage Area have the Blessing of the Storm.", "Storm Blessing"),
-        new("Wish for Wisps", "Enemies in Mirage Area have a chance to be empowered by Wildwood Wisps.", "Wildwood Wisps"),
-        new("Wish for Oases", "Mirage Area has patches of Oasis Ground.", "Oasis Ground"),
-        new("Wish for Rust", "Map Boss of the Mirage Area will be accompanied by Ridan, of the Afarud.", "Boss + Ridan"),
-        new("Wish for Godhood", "Players in Mirage Area have Echoing Shrine and Divine Shrine.", "Echo/Divine Shrine"),
-        new("Wish for Momentum", "Players in Mirage Area have Onslaught and Adrenaline.", "Onslaught/Adrenaline"),
-        new("Wish for Croaks", "Mirage Area contains additional frogs.", "More Frogs")
+        new("Wish for Bastions", "Breaking the Astral Chain in the Mirage Area will reward Rare Shields.", "Rare Shields")
     };
 
     public override bool Initialise()
@@ -92,66 +90,64 @@ public class WishHelper : BaseSettingsPlugin<WishHelperSettings>
     private ListNode GetTierSetting(int index) => index switch
     {
         0 => Settings.FishesTier,
-        1 => Settings.TrovesTier,
-        2 => Settings.StrangeHorizonsTier,
-        3 => Settings.ReflectionTier,
-        4 => Settings.ProvidenceTier,
-        5 => Settings.JewelsTier,
-        6 => Settings.WealthTier,
-        7 => Settings.ForeknowledgeTier,
-        8 => Settings.ScarabsTier,
-        9 => Settings.GoldTier,
-        10 => Settings.EminenceTier,
-        11 => Settings.FortuneTier,
-        12 => Settings.SkitteringTier,
-        13 => Settings.AuguryTier,
-        14 => Settings.DistantHorizonsTier,
-        15 => Settings.TitansTier,
+        1 => Settings.FoesTier,
+        2 => Settings.RebirthTier,
+        3 => Settings.TrovesTier,
+        4 => Settings.GlitteringTier,
+        5 => Settings.WealthTier,
+        6 => Settings.ForeknowledgeTier,
+        7 => Settings.ScarabsTier,
+        8 => Settings.HorizonsTier,
+        9 => Settings.TreasuresTier,
+        10 => Settings.HordesTier,
+        11 => Settings.GoldTier,
+        12 => Settings.TitansTier,
+        13 => Settings.JewelsTier,
+        14 => Settings.MeddlingTier,
+        15 => Settings.RiskTier,
         16 => Settings.ProsperityTier,
-        17 => Settings.KnowledgeTier,
-        18 => Settings.GlitteringTier,
-        19 => Settings.GlyphsTier,
-        20 => Settings.HorizonsTier,
-        21 => Settings.TreasuresTier,
-        22 => Settings.HordesTier,
-        23 => Settings.AncientProtectionTier,
-        24 => Settings.AncientArmamentsTier,
-        25 => Settings.AncientCuriosTier,
-        26 => Settings.BindingTier,
-        27 => Settings.RegencyTier,
-        28 => Settings.ConnectionsTier,
-        29 => Settings.MosaicsTier,
-        30 => Settings.SwiftnessTier,
-        31 => Settings.HelmsTier,
-        32 => Settings.MittsTier,
-        33 => Settings.ProtectionTier,
-        34 => Settings.BladesTier,
-        35 => Settings.MissilesTier,
-        36 => Settings.BastionsTier,
-        37 => Settings.TrinketsTier,
-        38 => Settings.CraftsmanshipTier,
-        39 => Settings.PowerTier,
-        40 => Settings.SoulsTier,
-        41 => Settings.FlamesTier,
-        42 => Settings.FightingChanceTier,
-        43 => Settings.RebirthTier,
-        44 => Settings.FoesTier,
-        45 => Settings.PursuitTier,
-        46 => Settings.TerrorTier,
-        47 => Settings.BetrayalTier,
-        48 => Settings.PhantomsTier,
-        49 => Settings.MeddlingTier,
-        50 => Settings.RiskTier,
-        51 => Settings.UncertaintyTier,
-        52 => Settings.HindranceTier,
-        53 => Settings.AvariceTier,
-        54 => Settings.ElementsTier,
-        55 => Settings.WispsTier,
-        56 => Settings.OasesTier,
-        57 => Settings.RustTier,
-        58 => Settings.GodhoodTier,
-        59 => Settings.MomentumTier,
-        60 => Settings.CroaksTier,
+        17 => Settings.UncertaintyTier,
+        18 => Settings.HindranceTier,
+        19 => Settings.PursuitTier,
+        20 => Settings.OasesTier,
+        21 => Settings.RustTier,
+        22 => Settings.ProvidenceTier,
+        23 => Settings.ReflectionTier,
+        24 => Settings.GodhoodTier,
+        25 => Settings.KnowledgeTier,
+        26 => Settings.PowerTier,
+        27 => Settings.MomentumTier,
+        28 => Settings.SoulsTier,
+        29 => Settings.ElementsTier,
+        30 => Settings.WispsTier,
+        31 => Settings.CroaksTier,
+        32 => Settings.GlyphsTier,
+        33 => Settings.TrinketsTier,
+        34 => Settings.TerrorTier,
+        35 => Settings.EminenceTier,
+        36 => Settings.AvariceTier,
+        37 => Settings.BetrayalTier,
+        38 => Settings.PhantomsTier,
+        39 => Settings.FortuneTier,
+        40 => Settings.SkitteringTier,
+        41 => Settings.AuguryTier,
+        42 => Settings.DistantHorizonsTier,
+        43 => Settings.StrangeHorizonsTier,
+        44 => Settings.BindingTier,
+        45 => Settings.RegencyTier,
+        46 => Settings.ConnectionsTier,
+        47 => Settings.AncientProtectionTier,
+        48 => Settings.AncientArmamentsTier,
+        49 => Settings.AncientCuriosTier,
+        50 => Settings.CraftsmanshipTier,
+        51 => Settings.MosaicsTier,
+        52 => Settings.SwiftnessTier,
+        53 => Settings.HelmsTier,
+        54 => Settings.MittsTier,
+        55 => Settings.ProtectionTier,
+        56 => Settings.BladesTier,
+        57 => Settings.MissilesTier,
+        58 => Settings.BastionsTier,
         _ => Settings.FishesTier
     };
 
@@ -222,6 +218,10 @@ public class WishHelper : BaseSettingsPlugin<WishHelperSettings>
     {
         if (!Settings.Enable.Value) return;
 
+        var bestTier = _highlightedElements.Count > 0 ? GetBestTier() : null;
+        var bestTierCount = _highlightedElements.Count(item => item.Tier == bestTier);
+        var hasUniqueWinner = bestTier != null && bestTierCount == 1;
+
         foreach (var item in _highlightedElements)
         {
             if (item.Element?.Address == 0) continue;
@@ -244,7 +244,21 @@ public class WishHelper : BaseSettingsPlugin<WishHelperSettings>
                 var labelPos = new System.Numerics.Vector2(rect.X + 5, rect.Y + 5);
                 Graphics.DrawTextWithBackground(item.Tier, labelPos, Color.White, Color.Black);
             }
+
+            if (hasUniqueWinner && item.Tier == bestTier && Settings.ShowStarForSTier)
+                DrawStar(rect);
         }
+    }
+
+    private string GetBestTier()
+    {
+        var tierOrder = new[] { "S", "A", "B", "C", "D" };
+        foreach (var tier in tierOrder)
+        {
+            if (_highlightedElements.Any(item => item.Tier == tier))
+                return tier;
+        }
+        return null;
     }
 
     private void DrawCustomTextOverlay(RectangleF rect, string tier, string shortDescription, Color tierColor)
@@ -263,11 +277,19 @@ public class WishHelper : BaseSettingsPlugin<WishHelperSettings>
         Graphics.DrawTextWithBackground(shortDescription, descPos, tierColor, Color.Black);
     }
 
+    private void DrawStar(RectangleF rect)
+    {
+        var star = "*";
+        var starSize = Graphics.MeasureText(star);
+        var starPos = new System.Numerics.Vector2(rect.Right - starSize.X - 3, rect.Y + 3);
+        Graphics.DrawTextWithBackground(star, starPos, Color.Gold, Color.Black);
+    }
+
     public override void DrawSettings()
     {
         base.DrawSettings();
 
-        var tierOptions = new List<string> { "S", "A", "B", "C", "D", "F" };
+        var tierOptions = new List<string> { "S", "A", "B", "C", "D" };
         var sortedWishes = _wishList.OrderBy(w => w.Wish.Name.Replace("Wish for ", "").Trim()).ToList();
         
         if (ImGui.TreeNode("Wish Tier Customization"))
