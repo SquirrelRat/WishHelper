@@ -18,5 +18,9 @@ Highlights Mirage Wishes in Path of Exile with tier colors and weight-based reco
 - **Weight System**: Replaced tier dropdowns with 0-100 weight sliders
 - **Auto-Recommendation**: "Recommended" label appears on highest weight wish
 - **Selection Hotkey**: Bind a key to auto-click recommended wish + confirm
+- **Color Coded Settings**: Added color coded settings.
+
+  <img width="542" height="785" alt="image" src="https://github.com/user-attachments/assets/6534be12-69ec-44b5-9eb0-eeaf75b3be81" />
+
 
 Customize any wish's weight in Settings > Wish Weight Customization
