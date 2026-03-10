@@ -7,14 +7,18 @@ using SharpDX;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Windows.Forms;
 using Color = SharpDX.Color;
 
 namespace WishHelper;
 
 public class WishHelper : BaseSettingsPlugin<WishHelperSettings>
 {
-    private readonly List<(Element Element, Color Color, string Tier, string ShortDescription)> _highlightedElements = new();
-    private List<(WishData Wish, ListNode Tier)> _wishList = new();
+    private readonly List<(Element Element, Color Color, string Tier, int Weight, string ShortDescription)> _highlightedElements = new();
+    private List<(WishData Wish, RangeNode<int> Weight)> _wishList = new();
+    private Element _recommendedElement;
+    private Element _confirmButton;
 
     private record WishData(string Name, string Description, string ShortDescription);
 
@@ -52,11 +56,11 @@ public class WishHelper : BaseSettingsPlugin<WishHelperSettings>
         new("Wish for Elements", "Players in Mirage Area have the Blessing of the Storm.", "Storm Blessing"),
         new("Wish for Wisps", "Enemies in Mirage Area have a chance to be empowered by Wildwood Wisps.", "Wildwood Wisps"),
         new("Wish for Croaks", "Mirage Area contains additional frogs.", "More Frogs"),
-        new("Wish for Glyphs", "Portal Scrolls and Wisdom Scrolls found in Mirage Area will instead drop as other Currencies.", "Scrolls → Currency"),
+        new("Wish for Glyphs", "Portal Scrolls and Wisdom Scrolls found in Mirage Area will instead drop as other Currencies.", "Scrolls > Currency"),
         new("Wish for Trinkets", "Jewellery found in Mirage Area will instead drop as Jewels.", "Jewellery > Jewels"),
         new("Wish for Terror", "Map Boss of the Mirage Area will be accompanied by a Pinnacle Atlas Boss from The Feared.", "Boss + Pinnacle"),
         new("Wish for Eminence", "Breaking the Astral Chain in the Mirage Area will reward an additional Unique Jewel.", "Unique Jewel"),
-        new("Wish for Avarice", "Some packs in the Mirage Area will be replaced with Monsters that convert dropped Equipment to Gold.", "Equip → Gold"),
+        new("Wish for Avarice", "Some packs in the Mirage Area will be replaced with Monsters that convert dropped Equipment to Gold.", "Equip > Gold"),
         new("Wish for Betrayal", "Some packs in the Mirage Area will be replaced with Syndicate members.", "Syndicate"),
         new("Wish for Phantoms", "Some packs in the Mirage Area will be replaced with Monsters that cannot drop Equipment.", "No Equip Drops"),
         new("Wish for Fortune", "Breaking the Astral Chain in the Mirage Area will reward a cache of Currency.", "Currency Cache"),
@@ -83,72 +87,74 @@ public class WishHelper : BaseSettingsPlugin<WishHelperSettings>
 
     public override bool Initialise()
     {
-        _wishList = Wishes.Select((wish, index) => (wish, GetTierSetting(index))).ToList();
+        _wishList = Wishes.Select((wish, index) => (wish, GetWeightSetting(index))).ToList();
+        Input.RegisterKey(Settings.SelectRecommendedHotkey);
+        Settings.SelectRecommendedHotkey.OnValueChanged += () => Input.RegisterKey(Settings.SelectRecommendedHotkey);
         return true;
     }
 
-    private ListNode GetTierSetting(int index) => index switch
+    private RangeNode<int> GetWeightSetting(int index) => index switch
     {
-        0 => Settings.FishesTier,
-        1 => Settings.FoesTier,
-        2 => Settings.RebirthTier,
-        3 => Settings.TrovesTier,
-        4 => Settings.GlitteringTier,
-        5 => Settings.WealthTier,
-        6 => Settings.ForeknowledgeTier,
-        7 => Settings.ScarabsTier,
-        8 => Settings.HorizonsTier,
-        9 => Settings.TreasuresTier,
-        10 => Settings.HordesTier,
-        11 => Settings.GoldTier,
-        12 => Settings.TitansTier,
-        13 => Settings.JewelsTier,
-        14 => Settings.MeddlingTier,
-        15 => Settings.RiskTier,
-        16 => Settings.ProsperityTier,
-        17 => Settings.UncertaintyTier,
-        18 => Settings.HindranceTier,
-        19 => Settings.PursuitTier,
-        20 => Settings.OasesTier,
-        21 => Settings.RustTier,
-        22 => Settings.ProvidenceTier,
-        23 => Settings.ReflectionTier,
-        24 => Settings.GodhoodTier,
-        25 => Settings.KnowledgeTier,
-        26 => Settings.PowerTier,
-        27 => Settings.MomentumTier,
-        28 => Settings.SoulsTier,
-        29 => Settings.ElementsTier,
-        30 => Settings.WispsTier,
-        31 => Settings.CroaksTier,
-        32 => Settings.GlyphsTier,
-        33 => Settings.TrinketsTier,
-        34 => Settings.TerrorTier,
-        35 => Settings.EminenceTier,
-        36 => Settings.AvariceTier,
-        37 => Settings.BetrayalTier,
-        38 => Settings.PhantomsTier,
-        39 => Settings.FortuneTier,
-        40 => Settings.SkitteringTier,
-        41 => Settings.AuguryTier,
-        42 => Settings.DistantHorizonsTier,
-        43 => Settings.StrangeHorizonsTier,
-        44 => Settings.BindingTier,
-        45 => Settings.RegencyTier,
-        46 => Settings.ConnectionsTier,
-        47 => Settings.AncientProtectionTier,
-        48 => Settings.AncientArmamentsTier,
-        49 => Settings.AncientCuriosTier,
-        50 => Settings.CraftsmanshipTier,
-        51 => Settings.MosaicsTier,
-        52 => Settings.SwiftnessTier,
-        53 => Settings.HelmsTier,
-        54 => Settings.MittsTier,
-        55 => Settings.ProtectionTier,
-        56 => Settings.BladesTier,
-        57 => Settings.MissilesTier,
-        58 => Settings.BastionsTier,
-        _ => Settings.FishesTier
+        0 => Settings.FishesWeight,
+        1 => Settings.FoesWeight,
+        2 => Settings.RebirthWeight,
+        3 => Settings.TrovesWeight,
+        4 => Settings.GlitteringWeight,
+        5 => Settings.WealthWeight,
+        6 => Settings.ForeknowledgeWeight,
+        7 => Settings.ScarabsWeight,
+        8 => Settings.HorizonsWeight,
+        9 => Settings.TreasuresWeight,
+        10 => Settings.HordesWeight,
+        11 => Settings.GoldWeight,
+        12 => Settings.TitansWeight,
+        13 => Settings.JewelsWeight,
+        14 => Settings.MeddlingWeight,
+        15 => Settings.RiskWeight,
+        16 => Settings.ProsperityWeight,
+        17 => Settings.UncertaintyWeight,
+        18 => Settings.HindranceWeight,
+        19 => Settings.PursuitWeight,
+        20 => Settings.OasesWeight,
+        21 => Settings.RustWeight,
+        22 => Settings.ProvidenceWeight,
+        23 => Settings.ReflectionWeight,
+        24 => Settings.GodhoodWeight,
+        25 => Settings.KnowledgeWeight,
+        26 => Settings.PowerWeight,
+        27 => Settings.MomentumWeight,
+        28 => Settings.SoulsWeight,
+        29 => Settings.ElementsWeight,
+        30 => Settings.WispsWeight,
+        31 => Settings.CroaksWeight,
+        32 => Settings.GlyphsWeight,
+        33 => Settings.TrinketsWeight,
+        34 => Settings.TerrorWeight,
+        35 => Settings.EminenceWeight,
+        36 => Settings.AvariceWeight,
+        37 => Settings.BetrayalWeight,
+        38 => Settings.PhantomsWeight,
+        39 => Settings.FortuneWeight,
+        40 => Settings.SkitteringWeight,
+        41 => Settings.AuguryWeight,
+        42 => Settings.DistantHorizonsWeight,
+        43 => Settings.StrangeHorizonsWeight,
+        44 => Settings.BindingWeight,
+        45 => Settings.RegencyWeight,
+        46 => Settings.ConnectionsWeight,
+        47 => Settings.AncientProtectionWeight,
+        48 => Settings.AncientArmamentsWeight,
+        49 => Settings.AncientCuriosWeight,
+        50 => Settings.CraftsmanshipWeight,
+        51 => Settings.MosaicsWeight,
+        52 => Settings.SwiftnessWeight,
+        53 => Settings.HelmsWeight,
+        54 => Settings.MittsWeight,
+        55 => Settings.ProtectionWeight,
+        56 => Settings.BladesWeight,
+        57 => Settings.MissilesWeight,
+        58 => Settings.BastionsWeight,
+        _ => Settings.FishesWeight
     };
 
     private Color GetColorForTier(string tier) => tier switch
@@ -165,6 +171,8 @@ public class WishHelper : BaseSettingsPlugin<WishHelperSettings>
     public override Job Tick()
     {
         _highlightedElements.Clear();
+        _recommendedElement = null;
+        _confirmButton = null;
 
         if (!Settings.Enable.Value) return null;
 
@@ -182,25 +190,39 @@ public class WishHelper : BaseSettingsPlugin<WishHelperSettings>
 
             var wishInfo = FindWishName(targetChild);
             if (wishInfo.HasValue)
-                _highlightedElements.Add((wishInfo.Value.Element, wishInfo.Value.Color, wishInfo.Value.Tier, wishInfo.Value.ShortDescription));
+                _highlightedElements.Add((wishInfo.Value.Element, wishInfo.Value.Color, wishInfo.Value.Tier, wishInfo.Value.Weight, wishInfo.Value.ShortDescription));
+        }
+
+        if (child4.Children.Count > 6)
+            _confirmButton = child4.Children[6];
+
+        if (_highlightedElements.Count > 0)
+        {
+            var maxWeight = _highlightedElements.Max(item => item.Weight);
+            var bestCount = _highlightedElements.Count(item => item.Weight == maxWeight);
+            var hasUniqueWinner = bestCount == 1;
+
+            if (hasUniqueWinner)
+                _recommendedElement = _highlightedElements.First(item => item.Weight == maxWeight).Element;
         }
 
         return null;
     }
 
-    private (string WishName, Element Element, Color Color, string Tier, string ShortDescription)? FindWishName(Element element)
+    private (string WishName, Element Element, Color Color, string Tier, int Weight, string ShortDescription)? FindWishName(Element element)
     {
         if (element == null) return null;
 
         if (!string.IsNullOrEmpty(element.Text))
         {
             var text = element.Text;
-            foreach (var (wish, tierNode) in _wishList)
+            foreach (var (wish, weightNode) in _wishList)
             {
                 if (text.Contains(wish.Name, StringComparison.OrdinalIgnoreCase))
                 {
-                    var tier = tierNode.Value;
-                    return (text, element, GetColorForTier(tier), tier, wish.ShortDescription);
+                    var weight = weightNode.Value;
+                    var tier = WishHelperSettings.GetTierFromWeight(weight);
+                    return (text, element, GetColorForTier(tier), tier, weight, wish.ShortDescription);
                 }
             }
         }
@@ -218,59 +240,75 @@ public class WishHelper : BaseSettingsPlugin<WishHelperSettings>
     {
         if (!Settings.Enable.Value) return;
 
-        var bestTier = _highlightedElements.Count > 0 ? GetBestTier() : null;
-        var bestTierCount = _highlightedElements.Count(item => item.Tier == bestTier);
-        var hasUniqueWinner = bestTier != null && bestTierCount == 1;
-
-        foreach (var item in _highlightedElements)
+        if (_highlightedElements.Count > 0)
         {
-            if (item.Element?.Address == 0) continue;
+            var maxWeight = _highlightedElements.Max(item => item.Weight);
+            var bestCount = _highlightedElements.Count(item => item.Weight == maxWeight);
+            var hasUniqueWinner = bestCount == 1;
 
-            var rect = item.Element.GetClientRect();
-            var color = item.Color;
-            var expandedRect = new RectangleF(rect.X - 1, rect.Y - 1, rect.Width + 2, rect.Height + 2);
-            
-            if (Settings.DrawBox)
-                Graphics.DrawBox(rect, new Color(color.R, color.G, color.B, (byte)60));
-            
-            if (Settings.DrawFrame)
-                Graphics.DrawFrame(expandedRect, color, Settings.FrameThickness);
-            
-            if (Settings.ShowCustomText)
-                DrawCustomTextOverlay(rect, item.Tier, item.ShortDescription, color);
-            
-            if (Settings.ShowTierLabel)
+            foreach (var item in _highlightedElements)
             {
-                var labelPos = new System.Numerics.Vector2(rect.X + 5, rect.Y + 5);
-                Graphics.DrawTextWithBackground(item.Tier, labelPos, Color.White, Color.Black);
+                if (item.Element?.Address == 0) continue;
+
+                var rect = item.Element.GetClientRect();
+                var color = item.Color;
+                var expandedRect = new RectangleF(rect.X - 1, rect.Y - 1, rect.Width + 2, rect.Height + 2);
+
+                if (Settings.DrawBox)
+                    Graphics.DrawBox(rect, new Color(color.R, color.G, color.B, (byte)60));
+
+                if (Settings.DrawFrame)
+                    Graphics.DrawFrame(expandedRect, color, Settings.FrameThickness);
+
+                if (Settings.ShowCustomText)
+                {
+                    var isRecommended = hasUniqueWinner && item.Weight == maxWeight;
+                    DrawCustomTextOverlay(rect, item.Tier, item.ShortDescription, color, isRecommended);
+                }
+
+                if (Settings.ShowTierLabel)
+                {
+                    var labelPos = new System.Numerics.Vector2(rect.X + 5, rect.Y + 5);
+                    Graphics.DrawTextWithBackground(item.Tier, labelPos, Color.White, Color.Black);
+                }
+
+                if (hasUniqueWinner && item.Weight == maxWeight && Settings.ShowStarForSTier)
+                    DrawStar(rect);
             }
-
-            if (hasUniqueWinner && item.Tier == bestTier && Settings.ShowStarForSTier)
-                DrawStar(rect);
         }
-    }
 
-    private string GetBestTier()
-    {
-        var tierOrder = new[] { "S", "A", "B", "C", "D" };
-        foreach (var tier in tierOrder)
+        if (Settings.SelectRecommendedHotkey.PressedOnce())
         {
-            if (_highlightedElements.Any(item => item.Tier == tier))
-                return tier;
+            SelectRecommended();
         }
-        return null;
     }
 
-    private void DrawCustomTextOverlay(RectangleF rect, string tier, string shortDescription, Color tierColor)
+    private void DrawCustomTextOverlay(RectangleF rect, string tier, string shortDescription, Color tierColor, bool isRecommended)
     {
         const int padding = 5;
-        
-        var tierText = $"Tier: {tier}";
-        var tierSize = Graphics.MeasureText(tierText);
-        var tierX = rect.X + (rect.Width - tierSize.X) / 2;
-        var tierPos = new System.Numerics.Vector2(tierX, rect.Y + padding);
-        Graphics.DrawTextWithBackground(tierText, tierPos, tierColor, Color.Black);
-        
+
+        string topText;
+        Color topColor;
+
+        if (isRecommended)
+        {
+            topText = "Recommended";
+            topColor = Color.Green;
+        }
+        else
+        {
+            topText = "";
+            topColor = tierColor;
+        }
+
+        if (!string.IsNullOrEmpty(topText))
+        {
+            var tierSize = Graphics.MeasureText(topText);
+            var tierX = rect.X + (rect.Width - tierSize.X) / 2;
+            var tierPos = new System.Numerics.Vector2(tierX, rect.Y + padding);
+            Graphics.DrawTextWithBackground(topText, tierPos, topColor, Color.Black);
+        }
+
         var descSize = Graphics.MeasureText(shortDescription);
         var descX = rect.X + (rect.Width - descSize.X) / 2;
         var descPos = new System.Numerics.Vector2(descX, rect.Bottom - descSize.Y - padding);
@@ -285,32 +323,72 @@ public class WishHelper : BaseSettingsPlugin<WishHelperSettings>
         Graphics.DrawTextWithBackground(star, starPos, Color.Gold, Color.Black);
     }
 
+    private void SelectRecommended()
+    {
+        if (_recommendedElement == null || _confirmButton == null)
+            return;
+
+        if (_recommendedElement.Address == 0 || _confirmButton.Address == 0)
+            return;
+
+        var cardRect = _recommendedElement.GetClientRect();
+        var cardCenter = new System.Numerics.Vector2(
+            cardRect.X + cardRect.Width / 2,
+            cardRect.Y + cardRect.Height / 2
+        );
+
+        var confirmRect = _confirmButton.GetClientRect();
+        var confirmCenter = new System.Numerics.Vector2(
+            confirmRect.X + confirmRect.Width / 2,
+            confirmRect.Y + confirmRect.Height / 2
+        );
+
+        ThreadPool.QueueUserWorkItem(_ =>
+        {
+            Input.SetCursorPos(cardCenter);
+            Thread.Sleep(50);
+            Input.Click(MouseButtons.Left);
+            Thread.Sleep(100);
+            Input.SetCursorPos(confirmCenter);
+            Thread.Sleep(50);
+            Input.Click(MouseButtons.Left);
+        });
+    }
+
     public override void DrawSettings()
     {
         base.DrawSettings();
 
-        var tierOptions = new List<string> { "S", "A", "B", "C", "D" };
         var sortedWishes = _wishList.OrderBy(w => w.Wish.Name.Replace("Wish for ", "").Trim()).ToList();
-        
-        if (ImGui.TreeNode("Wish Tier Customization"))
+
+        if (ImGui.TreeNode("Wish Weight Customization"))
         {
-            foreach (var (wish, tierNode) in sortedWishes)
+            if (ImGui.Button("Reset All Weights to Defaults"))
+            {
+                Settings.ResetWeightsToDefaults();
+            }
+
+            ImGui.Separator();
+
+            foreach (var (wish, weightNode) in sortedWishes)
             {
                 ImGui.Text(wish.Name);
                 if (ImGui.IsItemHovered())
                     ImGui.SetTooltip(wish.Description);
-                
+
                 ImGui.SameLine(250);
-                var currentTier = tierNode.Value;
-                if (ImGui.BeginCombo($"##{wish.Name}", currentTier, ImGuiComboFlags.WidthFitPreview))
+                var weight = weightNode.Value;
+                var tier = WishHelperSettings.GetTierFromWeight(weight);
+
+                ImGui.PushItemWidth(200);
+                if (ImGui.SliderInt($"##{wish.Name}_weight", ref weight, 0, 100))
                 {
-                    foreach (var tier in tierOptions)
-                    {
-                        if (ImGui.Selectable(tier, currentTier == tier))
-                            tierNode.Value = tier;
-                    }
-                    ImGui.EndCombo();
+                    weightNode.Value = weight;
                 }
+                ImGui.PopItemWidth();
+
+                ImGui.SameLine();
+                ImGui.Text($"Tier: {tier}");
             }
             ImGui.TreePop();
         }
