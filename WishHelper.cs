@@ -372,23 +372,33 @@ public class WishHelper : BaseSettingsPlugin<WishHelperSettings>
 
             foreach (var (wish, weightNode) in sortedWishes)
             {
+                var weight = weightNode.Value;
+                var tier = WishHelperSettings.GetTierFromWeight(weight);
+                var tierColor = GetColorForTier(tier);
+                var imguiColor = new System.Numerics.Vector4(tierColor.R / 255f, tierColor.G / 255f, tierColor.B / 255f, tierColor.A / 255f);
+
+                ImGui.PushStyleColor(ImGuiCol.Text, imguiColor);
                 ImGui.Text(wish.Name);
+                ImGui.PopStyleColor();
+
                 if (ImGui.IsItemHovered())
                     ImGui.SetTooltip(wish.Description);
 
                 ImGui.SameLine(250);
-                var weight = weightNode.Value;
-                var tier = WishHelperSettings.GetTierFromWeight(weight);
 
                 ImGui.PushItemWidth(200);
-                if (ImGui.SliderInt($"##{wish.Name}_weight", ref weight, 0, 100))
+                if (ImGui.SliderInt($"##{wish.Name}_weight", ref weight, 0, 1000))
                 {
                     weightNode.Value = weight;
                 }
                 ImGui.PopItemWidth();
 
                 ImGui.SameLine();
-                ImGui.Text($"Tier: {tier}");
+                ImGui.Text("Tier: ");
+                ImGui.SameLine();
+                ImGui.PushStyleColor(ImGuiCol.Text, imguiColor);
+                ImGui.Text(tier);
+                ImGui.PopStyleColor();
             }
             ImGui.TreePop();
         }
