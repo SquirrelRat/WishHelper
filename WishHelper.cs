@@ -272,8 +272,8 @@ public class WishHelper : BaseSettingsPlugin<WishHelperSettings>
                     Graphics.DrawTextWithBackground(item.Tier, labelPos, Color.White, Color.Black);
                 }
 
-                if (hasUniqueWinner && item.Weight == maxWeight && Settings.ShowStarForSTier)
-                    DrawStar(rect);
+                if (Settings.ShowWeightOnCards)
+                    DrawWeight(rect, item.Weight);
             }
         }
 
@@ -315,12 +315,12 @@ public class WishHelper : BaseSettingsPlugin<WishHelperSettings>
         Graphics.DrawTextWithBackground(shortDescription, descPos, tierColor, Color.Black);
     }
 
-    private void DrawStar(RectangleF rect)
+    private void DrawWeight(RectangleF rect, int weight)
     {
-        var star = "*";
-        var starSize = Graphics.MeasureText(star);
-        var starPos = new System.Numerics.Vector2(rect.Right - starSize.X - 3, rect.Y + 3);
-        Graphics.DrawTextWithBackground(star, starPos, Color.Gold, Color.Black);
+        var weightText = weight.ToString();
+        var weightSize = Graphics.MeasureText(weightText);
+        var weightPos = new System.Numerics.Vector2(rect.Right - weightSize.X - 5, rect.Y + 5);
+        Graphics.DrawTextWithBackground(weightText, weightPos, Color.White, Color.Black);
     }
 
     private void SelectRecommended()

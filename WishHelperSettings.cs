@@ -15,7 +15,7 @@ public class WishHelperSettings : ISettings
     public ToggleNode DrawFrame { get; set; } = new ToggleNode(true);
     public ToggleNode ShowTierLabel { get; set; } = new ToggleNode(true);
     public ToggleNode ShowCustomText { get; set; } = new ToggleNode(true);
-    public ToggleNode ShowStarForSTier { get; set; } = new ToggleNode(true);
+    public ToggleNode ShowWeightOnCards { get; set; } = new ToggleNode(true);
     public RangeNode<int> FrameThickness { get; set; } = new RangeNode<int>(3, 1, 10);
 
     [Menu("Select Recommended Hotkey")]
