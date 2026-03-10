@@ -2,7 +2,7 @@
 
 Highlights Mirage Wishes in Path of Exile with tier colors and weight-based recommendations.
 
-<img width="1058" height="644" alt="image" src="https://github.com/user-attachments/assets/cf066465-6e0e-4f36-8559-6bebdb3f99c3" />
+<img width="1065" height="631" alt="image" src="https://github.com/user-attachments/assets/5b883f5b-ea5c-499e-bce6-d4503dafb3e3" />
 
 ## Features
 
