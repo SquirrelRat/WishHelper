@@ -19,6 +19,9 @@ public class WishHelper : BaseSettingsPlugin<WishHelperSettings>
     private List<(WishData Wish, RangeNode<int> Weight)> _wishList = new();
     private Element _recommendedElement;
     private Element _confirmButton;
+    private ProfileManager _profileManager = null!;
+    private string _newProfileName = "";
+    private int _selectedProfileIndex = 0;
 
     private record WishData(string Name, string Description, string ShortDescription);
 
@@ -90,6 +93,10 @@ public class WishHelper : BaseSettingsPlugin<WishHelperSettings>
         _wishList = Wishes.Select((wish, index) => (wish, GetWeightSetting(index))).ToList();
         Input.RegisterKey(Settings.SelectRecommendedHotkey);
         Settings.SelectRecommendedHotkey.OnValueChanged += () => Input.RegisterKey(Settings.SelectRecommendedHotkey);
+        
+        _profileManager = new ProfileManager(Settings, ConfigDirectory);
+        _profileManager.LoadProfiles();
+        
         return true;
     }
 
@@ -253,16 +260,19 @@ public class WishHelper : BaseSettingsPlugin<WishHelperSettings>
                 var rect = item.Element.GetClientRect();
                 var color = item.Color;
                 var expandedRect = new RectangleF(rect.X - 1, rect.Y - 1, rect.Width + 2, rect.Height + 2);
+                var isRecommended = hasUniqueWinner && item.Weight == maxWeight;
 
                 if (Settings.DrawBox)
                     Graphics.DrawBox(rect, new Color(color.R, color.G, color.B, (byte)60));
 
                 if (Settings.DrawFrame)
-                    Graphics.DrawFrame(expandedRect, color, Settings.FrameThickness);
+                {
+                    var thickness = isRecommended ? Settings.RecommendedFrameThickness.Value : Settings.NonRecommendedFrameThickness.Value;
+                    Graphics.DrawFrame(expandedRect, color, thickness);
+                }
 
                 if (Settings.ShowCustomText)
                 {
-                    var isRecommended = hasUniqueWinner && item.Weight == maxWeight;
                     DrawCustomTextOverlay(rect, item.Tier, item.ShortDescription, color, isRecommended);
                 }
 
@@ -346,11 +356,11 @@ public class WishHelper : BaseSettingsPlugin<WishHelperSettings>
         ThreadPool.QueueUserWorkItem(_ =>
         {
             Input.SetCursorPos(cardCenter);
-            Thread.Sleep(50);
+            Thread.Sleep(200);
             Input.Click(MouseButtons.Left);
-            Thread.Sleep(100);
+            Thread.Sleep(250);
             Input.SetCursorPos(confirmCenter);
-            Thread.Sleep(50);
+            Thread.Sleep(200);
             Input.Click(MouseButtons.Left);
         });
     }
@@ -368,6 +378,54 @@ public class WishHelper : BaseSettingsPlugin<WishHelperSettings>
                 Settings.ResetWeightsToDefaults();
             }
 
+            ImGui.Separator();
+
+
+            if (ImGui.TreeNode("Profile Management"))
+            {
+                ImGui.Text("Profiles:");
+                ImGui.SameLine();
+                
+                var profiles = _profileManager.Profiles.Select(p => p.Name).ToList();
+                profiles.Insert(0, "Default");
+                
+                if (_selectedProfileIndex >= profiles.Count)
+                    _selectedProfileIndex = 0;
+                
+                ImGui.PushItemWidth(200);
+                if (ImGui.Combo("##ProfileCombo", ref _selectedProfileIndex, profiles.ToArray(), profiles.Count))
+                {
+                    var selectedName = profiles[_selectedProfileIndex];
+                    _profileManager.LoadProfile(selectedName);
+                }
+                ImGui.PopItemWidth();
+                
+                ImGui.SameLine();
+                if (ImGui.Button("Delete") && _selectedProfileIndex > 0)
+                {
+                    var profileToDelete = profiles[_selectedProfileIndex];
+                    _profileManager.DeleteProfile(profileToDelete);
+                    _selectedProfileIndex = 0;
+                }
+                
+                ImGui.Separator();
+                
+                ImGui.Text("New Profile:");
+                ImGui.SameLine();
+                ImGui.PushItemWidth(200);
+                ImGui.InputText("##NewProfileName", ref _newProfileName, 50);
+                ImGui.PopItemWidth();
+                
+                ImGui.SameLine();
+                if (ImGui.Button("Save Current") && !string.IsNullOrWhiteSpace(_newProfileName))
+                {
+                    _profileManager.SaveCurrentProfile(_newProfileName.Trim());
+                    _newProfileName = "";
+                }
+                
+                ImGui.TreePop();
+            }
+            
             ImGui.Separator();
 
             foreach (var (wish, weightNode) in sortedWishes)

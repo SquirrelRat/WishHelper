@@ -16,7 +16,10 @@ public class WishHelperSettings : ISettings
     public ToggleNode ShowTierLabel { get; set; } = new ToggleNode(true);
     public ToggleNode ShowCustomText { get; set; } = new ToggleNode(true);
     public ToggleNode ShowWeightOnCards { get; set; } = new ToggleNode(true);
-    public RangeNode<int> FrameThickness { get; set; } = new RangeNode<int>(3, 1, 10);
+    [Menu("Recommended Frame Thickness")]
+    public RangeNode<int> RecommendedFrameThickness { get; set; } = new RangeNode<int>(3, 1, 10);
+    [Menu("Non-Recommended Frame Thickness")]
+    public RangeNode<int> NonRecommendedFrameThickness { get; set; } = new RangeNode<int>(1, 1, 10);
 
     [Menu("Select Recommended Hotkey")]
     public HotkeyNode SelectRecommendedHotkey { get; set; } = new HotkeyNode(Keys.None);
