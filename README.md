@@ -2,7 +2,7 @@
 
 Highlights Mirage Wishes in Path of Exile with tier colors and weight-based recommendations.
 
-<img width="1065" height="631" alt="image" src="https://github.com/user-attachments/assets/5b883f5b-ea5c-499e-bce6-d4503dafb3e3" />
+![ezgif-46b034ddeb3d7bbd](https://github.com/user-attachments/assets/be69087b-359f-44f9-964d-8e6ffb71a4c5)
 
 ## Features
 
@@ -24,3 +24,13 @@ Highlights Mirage Wishes in Path of Exile with tier colors and weight-based reco
 
 
 Customize any wish's weight in Settings > Wish Weight Customization
+
+# WishHelper Changelog
+
+- **Auto-Select**: Automatically clicks the best wish when window opens (on by default)
+- **Hover Tooltips**: Mouse over any card to see why you'd take that wish
+- **3 Animations**: Celestial (default), Lightning, and Beacon to highlight the best choice
+- **Smooth Performance**: Fixed timing issues, animations run consistently
+- **Visual Polish**: Better borders, pulsing brackets, cleaner effects
+- **Settings**: Animation speed/intensity controls + auto-select toggle
+- **New Wishes**: Added the 3 new wishes.
