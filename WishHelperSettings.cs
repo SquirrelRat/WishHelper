@@ -24,6 +24,25 @@ public class WishHelperSettings : ISettings
     [Menu("Select Recommended Hotkey")]
     public HotkeyNode SelectRecommendedHotkey { get; set; } = new HotkeyNode(Keys.None);
 
+    [Menu("Auto Select Recommended")]
+    public ToggleNode AutoSelectRecommended { get; set; } = new ToggleNode(true);
+
+    [Menu("Recommendation Animation Style")]
+    public ListNode RecommendationAnimation { get; set; } = new ListNode
+    {
+        Values = new List<string> { "Celestial", "Lightning", "Beacon" },
+        Value = "Celestial"
+    };
+
+    [Menu("Animation Speed")]
+    public RangeNode<float> AnimationSpeed { get; set; } = new RangeNode<float>(4.0f, 0.5f, 8.0f);
+
+    [Menu("Animation Intensity")]
+    public RangeNode<float> AnimationIntensity { get; set; } = new RangeNode<float>(0.8f, 0.3f, 2.0f);
+
+    public ColorNode RecommendationGlowColor { get; set; } = new ColorNode(new Color(255, 215, 0));
+    public ColorNode SecondaryGlowColor { get; set; } = new ColorNode(new Color(100, 200, 255));
+
     public ColorNode STierColor { get; set; } = new ColorNode(Color.Purple);
     public ColorNode ATierColor { get; set; } = new ColorNode(Color.Green);
     public ColorNode BTierColor { get; set; } = new ColorNode(Color.Yellow);
@@ -35,7 +54,9 @@ public class WishHelperSettings : ISettings
     [IgnoreMenu] public RangeNode<int> StrangeHorizonsWeight { get; set; } = new RangeNode<int>(840, 0, 1000);
     [IgnoreMenu] public RangeNode<int> ReflectionWeight { get; set; } = new RangeNode<int>(660, 0, 1000);
     [IgnoreMenu] public RangeNode<int> ProvidenceWeight { get; set; } = new RangeNode<int>(960, 0, 1000);
-    [IgnoreMenu] public RangeNode<int> JewelsWeight { get; set; } = new RangeNode<int>(600, 0, 1000);
+    [IgnoreMenu] public RangeNode<int> JewelsBronzeWeight { get; set; } = new RangeNode<int>(600, 0, 1000);
+    [IgnoreMenu] public RangeNode<int> JewelsSilverWeight { get; set; } = new RangeNode<int>(600, 0, 1000);
+    [IgnoreMenu] public RangeNode<int> JewelsGoldWeight { get; set; } = new RangeNode<int>(600, 0, 1000);
 
     [IgnoreMenu] public RangeNode<int> WealthWeight { get; set; } = new RangeNode<int>(890, 0, 1000);
     [IgnoreMenu] public RangeNode<int> ForeknowledgeWeight { get; set; } = new RangeNode<int>(880, 0, 1000);
@@ -75,7 +96,6 @@ public class WishHelperSettings : ISettings
 
     [IgnoreMenu] public RangeNode<int> PowerWeight { get; set; } = new RangeNode<int>(330, 0, 1000);
     [IgnoreMenu] public RangeNode<int> SoulsWeight { get; set; } = new RangeNode<int>(560, 0, 1000);
-    [IgnoreMenu] public RangeNode<int> FlamesWeight { get; set; } = new RangeNode<int>(530, 0, 1000);
     [IgnoreMenu] public RangeNode<int> FightingChanceWeight { get; set; } = new RangeNode<int>(520, 0, 1000);
     [IgnoreMenu] public RangeNode<int> RebirthWeight { get; set; } = new RangeNode<int>(670, 0, 1000);
     [IgnoreMenu] public RangeNode<int> FoesWeight { get; set; } = new RangeNode<int>(640, 0, 1000);
@@ -95,6 +115,9 @@ public class WishHelperSettings : ISettings
     [IgnoreMenu] public RangeNode<int> GodhoodWeight { get; set; } = new RangeNode<int>(510, 0, 1000);
     [IgnoreMenu] public RangeNode<int> MomentumWeight { get; set; } = new RangeNode<int>(540, 0, 1000);
     [IgnoreMenu] public RangeNode<int> CroaksWeight { get; set; } = new RangeNode<int>(350, 0, 1000);
+    [IgnoreMenu] public RangeNode<int> FlameWeight { get; set; } = new RangeNode<int>(995, 0, 1000);
+    [IgnoreMenu] public RangeNode<int> TidesWeight { get; set; } = new RangeNode<int>(875, 0, 1000);
+    [IgnoreMenu] public RangeNode<int> SandsWeight { get; set; } = new RangeNode<int>(895, 0, 1000);
 
     public static string GetTierFromWeight(int weight)
     {
@@ -112,7 +135,9 @@ public class WishHelperSettings : ISettings
         StrangeHorizonsWeight.Value = 840;
         ReflectionWeight.Value = 660;
         ProvidenceWeight.Value = 960;
-        JewelsWeight.Value = 600;
+        JewelsBronzeWeight.Value = 600;
+        JewelsSilverWeight.Value = 600;
+        JewelsGoldWeight.Value = 600;
         WealthWeight.Value = 890;
         ForeknowledgeWeight.Value = 880;
         ScarabsWeight.Value = 870;
@@ -148,7 +173,6 @@ public class WishHelperSettings : ISettings
         CraftsmanshipWeight.Value = 450;
         PowerWeight.Value = 330;
         SoulsWeight.Value = 560;
-        FlamesWeight.Value = 530;
         FightingChanceWeight.Value = 520;
         RebirthWeight.Value = 670;
         FoesWeight.Value = 640;
@@ -168,5 +192,8 @@ public class WishHelperSettings : ISettings
         GodhoodWeight.Value = 510;
         MomentumWeight.Value = 540;
         CroaksWeight.Value = 350;
+        FlameWeight.Value = 500;
+        TidesWeight.Value = 500;
+        SandsWeight.Value = 500;
     }
 }

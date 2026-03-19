@@ -109,7 +109,9 @@ public class ProfileManager
             ["StrangeHorizonsWeight"] = _settings.StrangeHorizonsWeight.Value,
             ["ReflectionWeight"] = _settings.ReflectionWeight.Value,
             ["ProvidenceWeight"] = _settings.ProvidenceWeight.Value,
-            ["JewelsWeight"] = _settings.JewelsWeight.Value,
+            ["JewelsBronzeWeight"] = _settings.JewelsBronzeWeight.Value,
+            ["JewelsSilverWeight"] = _settings.JewelsSilverWeight.Value,
+            ["JewelsGoldWeight"] = _settings.JewelsGoldWeight.Value,
             ["WealthWeight"] = _settings.WealthWeight.Value,
             ["ForeknowledgeWeight"] = _settings.ForeknowledgeWeight.Value,
             ["ScarabsWeight"] = _settings.ScarabsWeight.Value,
@@ -145,7 +147,6 @@ public class ProfileManager
             ["CraftsmanshipWeight"] = _settings.CraftsmanshipWeight.Value,
             ["PowerWeight"] = _settings.PowerWeight.Value,
             ["SoulsWeight"] = _settings.SoulsWeight.Value,
-            ["FlamesWeight"] = _settings.FlamesWeight.Value,
             ["FightingChanceWeight"] = _settings.FightingChanceWeight.Value,
             ["RebirthWeight"] = _settings.RebirthWeight.Value,
             ["FoesWeight"] = _settings.FoesWeight.Value,
@@ -164,7 +165,10 @@ public class ProfileManager
             ["RustWeight"] = _settings.RustWeight.Value,
             ["GodhoodWeight"] = _settings.GodhoodWeight.Value,
             ["MomentumWeight"] = _settings.MomentumWeight.Value,
-            ["CroaksWeight"] = _settings.CroaksWeight.Value
+            ["CroaksWeight"] = _settings.CroaksWeight.Value,
+            ["FlameWeight"] = _settings.FlameWeight.Value,
+            ["TidesWeight"] = _settings.TidesWeight.Value,
+            ["SandsWeight"] = _settings.SandsWeight.Value
         };
     }
 
@@ -175,7 +179,9 @@ public class ProfileManager
         if (weights.TryGetValue("StrangeHorizonsWeight", out val)) _settings.StrangeHorizonsWeight.Value = val;
         if (weights.TryGetValue("ReflectionWeight", out val)) _settings.ReflectionWeight.Value = val;
         if (weights.TryGetValue("ProvidenceWeight", out val)) _settings.ProvidenceWeight.Value = val;
-        if (weights.TryGetValue("JewelsWeight", out val)) _settings.JewelsWeight.Value = val;
+        if (weights.TryGetValue("JewelsBronzeWeight", out val)) _settings.JewelsBronzeWeight.Value = val;
+        if (weights.TryGetValue("JewelsSilverWeight", out val)) _settings.JewelsSilverWeight.Value = val;
+        if (weights.TryGetValue("JewelsGoldWeight", out val)) _settings.JewelsGoldWeight.Value = val;
         if (weights.TryGetValue("WealthWeight", out val)) _settings.WealthWeight.Value = val;
         if (weights.TryGetValue("ForeknowledgeWeight", out val)) _settings.ForeknowledgeWeight.Value = val;
         if (weights.TryGetValue("ScarabsWeight", out val)) _settings.ScarabsWeight.Value = val;
@@ -211,7 +217,6 @@ public class ProfileManager
         if (weights.TryGetValue("CraftsmanshipWeight", out val)) _settings.CraftsmanshipWeight.Value = val;
         if (weights.TryGetValue("PowerWeight", out val)) _settings.PowerWeight.Value = val;
         if (weights.TryGetValue("SoulsWeight", out val)) _settings.SoulsWeight.Value = val;
-        if (weights.TryGetValue("FlamesWeight", out val)) _settings.FlamesWeight.Value = val;
         if (weights.TryGetValue("FightingChanceWeight", out val)) _settings.FightingChanceWeight.Value = val;
         if (weights.TryGetValue("RebirthWeight", out val)) _settings.RebirthWeight.Value = val;
         if (weights.TryGetValue("FoesWeight", out val)) _settings.FoesWeight.Value = val;
@@ -231,6 +236,9 @@ public class ProfileManager
         if (weights.TryGetValue("GodhoodWeight", out val)) _settings.GodhoodWeight.Value = val;
         if (weights.TryGetValue("MomentumWeight", out val)) _settings.MomentumWeight.Value = val;
         if (weights.TryGetValue("CroaksWeight", out val)) _settings.CroaksWeight.Value = val;
+        if (weights.TryGetValue("FlameWeight", out val)) _settings.FlameWeight.Value = val;
+        if (weights.TryGetValue("TidesWeight", out val)) _settings.TidesWeight.Value = val;
+        if (weights.TryGetValue("SandsWeight", out val)) _settings.SandsWeight.Value = val;
     }
 
     private void CreateDefaultProfiles()
